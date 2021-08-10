@@ -1,5 +1,4 @@
 const puppeteer = require("puppeteer");
-const { setDefaultOptions } = require('expect-puppeteer');
 const fs = require("fs");
 const fsPromises = fs.promises;
 
@@ -21,7 +20,6 @@ describe("US-08 - Change an existing reservation - E2E", () => {
 
   beforeAll(async () => {
     await fsPromises.mkdir("./.screenshots", { recursive: true });
-    setDefaultOptions({ timeout: 1000 });
     browser = await puppeteer.launch();
   });
 
@@ -181,6 +179,7 @@ describe("US-08 - Change an existing reservation - E2E", () => {
       const [submitButton] = await page.$x(
         "//button[contains(translate(., 'ACDEFGHIJKLMNOPQRSTUVWXYZ', 'acdefghijklmnopqrstuvwxyz'), 'submit')]"
       );
+      console.log("after submitButton")
 
       if (!submitButton) {
         throw new Error("button containing submit not found.");
@@ -195,6 +194,7 @@ describe("US-08 - Change an existing reservation - E2E", () => {
         submitButton.click(),
         page.waitForNavigation({ waitUntil: "networkidle0" }),
       ]);
+      console.log("after click submitButton")
 
       expect(page.url()).toContain("/dashboard");
 
