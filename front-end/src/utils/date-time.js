@@ -49,6 +49,52 @@ export function today() {
   return asDateString(new Date());
 }
 
+export function checkInPast(currentDate) {
+  let [year, month, day] = currentDate.split("-");
+  month -= 1;
+  const versusToday = new Date(year, month, day);
+  versusToday.setHours(23);
+  versusToday.setMinutes(59);
+  const today = new Date();
+
+  if (versusToday.getTime() < today.getTime()) {
+    throw new Error("Date is in the past.");
+  }
+}
+export function checkTuesday(currentDate) {
+  let [year, month, day] = currentDate.split("-");
+  month -= 1;
+  const tuesdayDate = new Date(year, month, day);
+
+  if (tuesdayDate.getDay() === 2) {
+    throw new Error("Restaurant is closed on Tuesdays.");
+  }
+}
+export function checkTime(time) {
+  let [hour, minute] = time.split(":");
+
+  if (
+    Number(hour) < 10 ||
+    (Number(hour) === 10 && Number(minute) < 30) ||
+    Number(hour) >= 22 ||
+    (Number(hour) === 21 && Number(minute) > 30)
+  ) {
+    throw new Error("Can only make reservation between 10:30 AM and 9:30 PM.");
+  }
+}
+export function checkTodayTime(time) {
+  let [hour, minute] = time.split(":");
+  const nowTime = new Date();
+  const nowHour = nowTime.getHours();
+  const nowMinute = nowTime.getMinutes();
+
+  if (
+    Number(hour) < nowHour ||
+    (Number(hour) === nowHour && Number(minute) < nowMinute)
+  ) {
+    throw new Error("Can not make reservation in past of time today.");
+  }
+}
 /**
  * Subtracts one day to the specified date and return it in as YYYY-MM-DD.
  * @param currentDate
@@ -57,7 +103,8 @@ export function today() {
  *  the date one day prior to currentDate, formatted as YYYY-MM-DD
  */
 export function previous(currentDate) {
-  let [ year, month, day ] = currentDate.split("-");
+  let [year, month, day] = currentDate.split("-");
+
   month -= 1;
   const date = new Date(year, month, day);
   date.setMonth(date.getMonth());
@@ -73,7 +120,8 @@ export function previous(currentDate) {
  *  the date one day after currentDate, formatted as YYYY-MM-DD
  */
 export function next(currentDate) {
-  let [ year, month, day ] = currentDate.split("-");
+  let [year, month, day] = currentDate.split("-");
+
   month -= 1;
   const date = new Date(year, month, day);
   date.setMonth(date.getMonth());
