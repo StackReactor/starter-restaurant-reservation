@@ -1,54 +1,40 @@
 const knex = require("../db/connection");
-const tableName = "tables";
+const reservationsService = require("../reservations/reservations.service");
 
-function list(occupied) {
-  const query = knex(tableName).select("*");
-  if (occupied != null) {
-    query.where({ occupied: occupied });
-  }
-  return query.orderBy("table_name");
+function list() {
+  return knex("tables").select("*").orderBy("table_name", "asc");
 }
 
-function create(newTable) {
-  return knex(tableName).insert(newTable).returning("*");
-}
-function update(table_id, reservation_id) {
-  return knex(tableName)
-    .where({ table_id: table_id })
-    .update({ occupied: true })
-    .update({ reservation_id: reservation_id })
-    .returning("*");
+async function create(table) {
+  return await knex("tables")
+    .insert(table, "*")
+    .then((response) => response[0]);
 }
 
-function finish(table_id) {
-  return knex(tableName)
-    .where({ table_id: table_id })
-    .update({ occupied: false })
-    .update({ reservation_id: null })
-    .returning("*");
-}
-function checkTable(table_id) {
-  return knex(tableName).where({ table_id: table_id }).returning("*");
-}
-//THINGS DONE ON RESERVATIONS TABLE
-function getReservation(reservation_id) {
-  return knex("reservations")
-    .select("*")
-    .where({ reservation_id: reservation_id });
+async function read(table_id) {
+  return await knex("tables").where({ table_id }).first();
 }
 
-function reservationStatus(reservation_id, status) {
-  return knex("reservations")
-    .update({ status: status })
-    .where({ reservation_id: reservation_id });
+async function updateReservationId(table_id, reservation_id) {
+  return await knex("tables")
+    .where({ table_id })
+    .update("reservation_id", reservation_id)
+    .then(() => reservationsService.updateStatus(reservation_id, "seated"));
+}
+
+async function destroyReservationId(table) {
+  return await knex("tables")
+    .where({ table_id: table.table_id })
+    .update("reservation_id", null)
+    .then(() =>
+      reservationsService.updateStatus(table.reservation_id, "finished")
+    );
 }
 
 module.exports = {
   list,
   create,
-  update,
-  finish,
-  getReservation,
-  checkTable,
-  reservationStatus,
+  read,
+  updateReservationId,
+  destroyReservationId,
 };
