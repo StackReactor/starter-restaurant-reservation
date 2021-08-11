@@ -1,0 +1,76 @@
+.side-bar {
+  background-color: #393a44;
+  min-width: 250px;
+}
+h1 {
+  font-family: nunito;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+h2,
+h3,
+h4,
+h5,
+p,
+li,
+span {
+  font-family: nunito;
+}
+span {
+  font-size: xx-large;
+  margin-top: 20px;
+}
+form {
+  margin-left: 50px;
+  margin-right: 50px;
+  padding: 25px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25), 0 1px 5px 0 rgba(0, 0, 0, 0.19);
+  font-family: nunito;
+  font-size: large;
+}
+.btn {
+  font-family: nunito;
+  font-size: x-large;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.no-res {
+  font-size: x-large;
+  text-align: center;
+}
+.occupied {
+  font-size: x-large;
+  text-align: center;
+  margin: auto;
+}
+.reservation-date {
+  text-align: center;
+  background-color: azure;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25), 0 1px 5px 0 rgba(0, 0, 0, 0.19);
+}
+
+.reservation-all {
+  text-align: center;
+  min-width: 300px;
+  background-color: azure;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25), 0 1px 5px 0 rgba(0, 0, 0, 0.19);
+}
+.table {
+  border-radius: 100%;
+  min-width: 200px;
+  width: 200px;
+  max-width: 200px;
+  height: 200px;
+  max-height: 200px;
+  background-color: azure;
+  margin: 2%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25), 0 1px 5px 0 rgba(0, 0, 0, 0.19);
+}
+
+@media all and (min-width: 800px) {
+  .side-bar {
+    background-color: #393a44;
+    width: 200px;
+  }
+}
